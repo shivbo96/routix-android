@@ -1,0 +1,2 @@
+include ':routix'
+rootProject.name = "routix-android"
