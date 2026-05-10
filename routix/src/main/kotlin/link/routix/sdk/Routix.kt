@@ -20,7 +20,7 @@ import java.util.concurrent.atomic.AtomicBoolean
 
 object Routix {
     private const val TAG = "RoutixSDK"
-    private const val VERSION = "1.0.0"
+    private const val VERSION = "1.0.4"
     private var apiKey: String? = null
     private const val baseUrl: String = "https://api.routix.link"
     private val executor = Executors.newSingleThreadExecutor()
