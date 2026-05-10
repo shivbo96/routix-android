@@ -8,9 +8,15 @@ build/
 *.iml
 *.iws
 
-# Local configuration file (sdk path, etc)
+# Local configuration file (secrets)
 local.properties
-
+secring.gpg
+gen-key-script
+*.gpg
+*.asc
+PUBLISHED
+*.key
+*-bundle.zip
 # OS-specific files
 .DS_Store
 Thumbs.db

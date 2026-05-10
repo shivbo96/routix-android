@@ -1,7 +1,23 @@
+def localProperties = new Properties()
+def localPropertiesFile = rootProject.file('local.properties')
+if (localPropertiesFile.exists()) {
+    localProperties.load(new FileInputStream(localPropertiesFile))
+    localProperties.each { prop ->
+        project.ext.set(prop.key, prop.value)
+    }
+}
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.vanniktech:gradle-maven-publish-plugin:0.30.0'
+    }
+}
+
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: 'maven-publish'
-
 android {
     namespace 'link.routix.sdk'
     compileSdk 35
@@ -43,15 +59,42 @@ dependencies {
     implementation 'com.android.installreferrer:installreferrer:2.2'
 }
 
-afterEvaluate {
-    publishing {
-        publications {
-            release(MavenPublication) {
-                from components.release
-                groupId = 'link.routix.sdk'
-                artifactId = 'routix'
-                version = '1.0.0'
+// Maven Central Publishing Configuration
+apply plugin: 'com.vanniktech.maven.publish'
+apply plugin: 'signing'
+
+signing {
+    useGpgCmd()
+}
+
+mavenPublishing {
+    signAllPublications()
+    publishToMavenCentral(com.vanniktech.maven.publish.SonatypeHost.CENTRAL_PORTAL)
+    coordinates("link.routix.sdk", "routix", "1.0.0")
+
+    pom {
+        name = "Routix SDK"
+        description = "Official Routix SDK for Android. High-precision attribution, deep linking, and conversion tracking."
+        inceptionYear = "2026"
+        url = "https://routix.link"
+        licenses {
+            license {
+                name = "MIT License"
+                url = "https://opensource.org/licenses/MIT"
+                distribution = "repo"
             }
+        }
+        developers {
+            developer {
+                id = "routixteam"
+                name = "Routix Team"
+                url = "https://routix.link/"
+            }
+        }
+        scm {
+            url = "https://github.com/shivbo96/routix-android"
+            connection = "scm:git:git://github.com/shivbo96/routix-android.git"
+            developerConnection = "scm:git:ssh://git@github.com/shivbo96/routix-android.git"
         }
     }
 }
