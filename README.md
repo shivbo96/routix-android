@@ -1,6 +1,6 @@
 # Routix Android SDK 🚀
 
-[![Maven Central](https://img.shields.io/maven-central/v/link.routix/sdk?color=blue&logo=android)](https://search.maven.org/artifact/link.routix/sdk)
+[![JitPack](https://jitpack.io/v/shivbo96/routix-android.svg)](https://jitpack.io/#shivbo96/routix-android)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 The official **Routix SDK** for native Android applications. Professional-grade attribution, deep linking, and conversion tracking.
@@ -9,11 +9,15 @@ The official **Routix SDK** for native Android applications. Professional-grade 
 
 ## 📦 Installation
 
-Add the dependency to your `build.gradle`:
+Add the JitPack repository and the dependency to your `build.gradle`:
 
 ```gradle
+repositories {
+    maven { url 'https://jitpack.io' }
+}
+
 dependencies {
-    implementation 'link.routix:sdk:1.0.0'
+    implementation 'com.github.shivbo96:routix-android:1.0.0'
     implementation 'com.android.installreferrer:installreferrer:2.2'
 }
 ```
