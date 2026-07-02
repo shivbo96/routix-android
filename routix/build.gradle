@@ -26,7 +26,7 @@ android {
         minSdk 21
         targetSdk 35
         versionCode 1
-        versionName "1.0.4"
+        versionName "1.0.5"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -70,7 +70,7 @@ signing {
 mavenPublishing {
     signAllPublications()
     publishToMavenCentral(com.vanniktech.maven.publish.SonatypeHost.CENTRAL_PORTAL)
-    coordinates("link.routix.sdk", "routix", "1.0.4")
+    coordinates("link.routix.sdk", "routix", "1.0.5")
 
     pom {
         name = "Routix SDK"

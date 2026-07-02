@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.5
+
+* Added `anonymous_device_id` persistence and automated mapping to event metadata payloads to resolve conversion attribution gaps.
+
 ## 1.0.4
 
 * Unified versioning across all Routix SDKs.
