@@ -20,11 +20,12 @@ import java.util.concurrent.atomic.AtomicBoolean
 
 object Routix {
     private const val TAG = "RoutixSDK"
-    private const val VERSION = "1.0.4"
+    private const val VERSION = "1.0.5"
     private var apiKey: String? = null
     private const val baseUrl: String = "https://api.routix.link"
     private val executor = Executors.newSingleThreadExecutor()
     private var attributionListener: ((RoutixMatch) -> Unit)? = null
+    private var appContext: Context? = null
 
     /**
      * Sets a global listener for attribution events.
@@ -38,6 +39,7 @@ object Routix {
 
     fun initialize(context: Context, apiKey: String) {
         this.apiKey = apiKey
+        this.appContext = context.applicationContext
     }
 
     // MARK: - Deep Link Handling (Direct App Links)
@@ -195,8 +197,14 @@ object Routix {
     fun trackCustomEvent(eventType: String, metadata: Map<String, Any>? = null) {
         if (apiKey == null) return
         executor.execute {
+            val deviceInfo = appContext?.let { getDeviceInfo(it) }
             val payload = JSONObject().apply {
                 metadata?.forEach { (k, v) -> put(k, v) }
+                val anonymousDeviceId = metadata?.get("anonymous_device_id")
+                    ?: metadata?.get("anonymousDeviceId")
+                    ?: deviceInfo?.optString("anonymous_device_id")
+                if (anonymousDeviceId != null) put("anonymous_device_id", anonymousDeviceId)
+                if (!has("device_info") && !has("deviceInfo") && deviceInfo != null) put("device_info", deviceInfo)
                 put("event_type", eventType)
                 put("sdk_v", "android-$VERSION")
                 put("timestamp", isoTimestamp())
@@ -207,8 +215,14 @@ object Routix {
 
     private fun trackEvent(code: String, type: String, metadata: Map<String, Any>? = null) {
         executor.execute {
+            val deviceInfo = appContext?.let { getDeviceInfo(it) }
             val payload = JSONObject().apply {
                 metadata?.forEach { (k, v) -> put(k, v) }
+                val anonymousDeviceId = metadata?.get("anonymous_device_id")
+                    ?: metadata?.get("anonymousDeviceId")
+                    ?: deviceInfo?.optString("anonymous_device_id")
+                if (anonymousDeviceId != null) put("anonymous_device_id", anonymousDeviceId)
+                if (!has("device_info") && !has("deviceInfo") && deviceInfo != null) put("device_info", deviceInfo)
                 put("sdk_v", "android-$VERSION")
                 put("timestamp", isoTimestamp())
             }
